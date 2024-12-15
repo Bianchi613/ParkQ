@@ -1,7 +1,7 @@
 import { Column, DataType, Model, Table, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { Usuario } from '../usuario/usuario.model';
 
-@Table
+@Table({ tableName: 'administradores' })
 export class Administrador extends Model<Administrador> {
 
   @ForeignKey(() => Usuario)
@@ -11,19 +11,18 @@ export class Administrador extends Model<Administrador> {
   })
   id_usuario: number;
 
+  @BelongsTo(() => Usuario)
+  usuario: Usuario;
+
   @Column({
-    type: DataType.STRING(100),  // Ajuste para refletir o tipo do campo "cargo"
+    type: DataType.STRING(100),
     allowNull: true,
   })
   cargo: string;
 
   @Column({
-    type: DataType.TEXT,  // O tipo TEXT já é adequado para o campo "privilegios"
+    type: DataType.TEXT,
     allowNull: true,
   })
   privilegios: string;
-
-  // Relacionamento com Usuario (chave estrangeira)
-  @BelongsTo(() => Usuario)
-  usuario: Usuario;
-}
+};

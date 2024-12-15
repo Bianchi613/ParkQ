@@ -10,20 +10,20 @@ import { OperacaoModule } from './operacao/operacao.module';
 import { PagamentoModule } from './pagamento/pagamento.module';
 import { ClienteModule } from './cliente/cliente.module';
 import { AdministradorModule } from './administrador/administrador.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     SequelizeModule.forRoot({
-      dialect: 'postgres',
-      host: process.env.DATABASE_HOST,
-      port: parseInt(process.env.DATABASE_PORT),
-      username: process.env.DATABASE_USER,
-      password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE_NAME,
-      models: [], // Adicione suas entidades aqui caso não use autoLoadModels
-      autoLoadModels: true, // Ativa o carregamento automático das entidades registradas
-      synchronize: true, // Cria e/ou atualiza as tabelas no banco
+      dialect: 'postgres', // Banco de dados PostgreSQL
+      host: process.env.DATABASE_HOST, // Variável de ambiente para o host
+      port: parseInt(process.env.DATABASE_PORT), // Porta do banco de dados
+      username: process.env.DATABASE_USER, // Usuário do banco
+      password: process.env.DATABASE_PASSWORD, // Senha do banco
+      database: process.env.DATABASE_NAME, // Nome do banco de dados
+      autoLoadModels: true, // Carregamento automático das entidades
+      synchronize: true, // Sincroniza as tabelas automaticamente
     }),
     EstacionamentoModule,
     UsuarioModule,
@@ -34,7 +34,7 @@ import { AdministradorModule } from './administrador/administrador.module';
     PagamentoModule,
     ClienteModule,
     AdministradorModule,
-    // Adicione aqui mais módulos conforme necessário
+    AuthModule, // Importação do módulo de autenticação
   ],
 })
 export class AppModule {}
