@@ -12,7 +12,7 @@ export class AuthService {
   async validateUser(email: string, senha: string): Promise<any> {
     const user = await this.usuarioService.findByEmail(email);
     if (user && await user.comparePassword(senha)) {
-      const { senha, ...result } = user;
+      const { senha, ...result } = user; 
       return result;
     }
     throw new UnauthorizedException('Credenciais inválidas.');

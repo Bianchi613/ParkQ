@@ -14,7 +14,13 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    // Configuração de variáveis de ambiente
+    ConfigModule.forRoot({
+      isGlobal: true, // Disponibiliza as variáveis de ambiente para toda a aplicação
+      envFilePath: '.env', // Caminho do arquivo .env
+    }),
+    
+    // Configuração do Sequelize (Banco de Dados)
     SequelizeModule.forRoot({
       dialect: 'postgres', // Banco de dados PostgreSQL
       host: process.env.DATABASE_HOST, // Variável de ambiente para o host
@@ -23,8 +29,11 @@ import { AuthModule } from './auth/auth.module';
       password: process.env.DATABASE_PASSWORD, // Senha do banco
       database: process.env.DATABASE_NAME, // Nome do banco de dados
       autoLoadModels: true, // Carregamento automático das entidades
-      synchronize: true, // Sincroniza as tabelas automaticamente
+      synchronize: process.env.NODE_ENV !== 'production', // Em produção, não sincroniza as tabelas
+      logging: process.env.NODE_ENV !== 'production', // Desabilita logs de SQL no modo produção
     }),
+
+    // Importação dos módulos principais
     EstacionamentoModule,
     UsuarioModule,
     PlanoTarifacaoModule,
