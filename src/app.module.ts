@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EstacionamentoModule } from './estacionamento/estacionamento.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { PlanoTarifacaoModule } from './plano-tarifacao/plano-tarifacao.module';
@@ -14,26 +14,30 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    // Configuração de variáveis de ambiente
+    // 1️ Carregar variáveis de ambiente do arquivo .env
     ConfigModule.forRoot({
-      isGlobal: true, // Disponibiliza as variáveis de ambiente para toda a aplicação
+      isGlobal: true, // As variáveis de ambiente estarão disponíveis globalmente
       envFilePath: '.env', // Caminho do arquivo .env
     }),
-    
-    // Configuração do Sequelize (Banco de Dados)
-    SequelizeModule.forRoot({
-      dialect: 'postgres', // Banco de dados PostgreSQL
-      host: process.env.DATABASE_HOST, // Variável de ambiente para o host
-      port: parseInt(process.env.DATABASE_PORT), // Porta do banco de dados
-      username: process.env.DATABASE_USER, // Usuário do banco
-      password: process.env.DATABASE_PASSWORD, // Senha do banco
-      database: process.env.DATABASE_NAME, // Nome do banco de dados
-      autoLoadModels: true, // Carregamento automático das entidades
-      synchronize: process.env.NODE_ENV !== 'production', // Em produção, não sincroniza as tabelas
-      logging: process.env.NODE_ENV !== 'production', // Desabilita logs de SQL no modo produção
+
+    // 2️ Configurar o Sequelize para conectar ao banco de dados PostgreSQL
+    SequelizeModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        dialect: 'postgres', // Banco de dados PostgreSQL
+        host: configService.get<string>('DATABASE_HOST', 'localhost'), // Variável de ambiente para o host
+        port: parseInt(configService.get<string>('DATABASE_PORT', '5432'), 10), // Porta do banco de dados
+        username: configService.get<string>('DATABASE_USER', 'postgres'), // Usuário do banco
+        password: configService.get<string>('DATABASE_PASSWORD', '12345'), // Senha do banco
+        database: configService.get<string>('DATABASE_NAME', 'parkq'), // Nome do banco de dados
+        autoLoadModels: true, // Carregamento automático dos models
+        synchronize: configService.get<string>('NODE_ENV') !== 'production', // Não sincronizar em produção
+        logging: configService.get<string>('NODE_ENV') !== 'production' ? console.log : false, // Desabilitar logs de SQL no modo produção
+      }),
     }),
 
-    // Importação dos módulos principais
+    // 3️ Importação dos módulos principais
     EstacionamentoModule,
     UsuarioModule,
     PlanoTarifacaoModule,
