@@ -1,56 +1,36 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { VagaRepository } from './vaga.repository';
 import { Vaga } from './vaga.model';
 
 @Injectable()
 export class VagaService {
-  constructor(
-    @InjectModel(Vaga)
-    private vagaModel: typeof Vaga,
-  ) {}
+  constructor(private readonly vagaRepository: VagaRepository) {}
 
   async findAll(): Promise<Vaga[]> {
-    return this.vagaModel.findAll();
+    return this.vagaRepository.findAll();
   }
 
   async findOne(id: number): Promise<Vaga> {
-    const vaga = await this.vagaModel.findByPk(id);
-    if (!vaga) {
-      throw new NotFoundException(`Vaga com id ${id} não encontrada`);
-    }
-    return vaga;
+    return this.vagaRepository.findById(id);
   }
 
   async create(vagaData: Partial<Vaga>): Promise<Vaga> {
-    return this.vagaModel.create(vagaData);
+    return this.vagaRepository.create(vagaData);
   }
 
   async update(id: number, vagaData: Partial<Vaga>): Promise<Vaga> {
-    const vaga = await this.findOne(id);
-    await vaga.update(vagaData);
-    return vaga;
+    return this.vagaRepository.update(id, vagaData);
   }
 
   async remove(id: number): Promise<void> {
-    const vaga = await this.findOne(id);
-    await vaga.destroy();
+    return this.vagaRepository.remove(id);
   }
 
   async reservar(id: number): Promise<Vaga> {
-    const vaga = await this.findOne(id);
-    if (vaga.reservada) {
-      throw new Error(`A vaga ${id} já está reservada`);
-    }
-    await vaga.update({ reservada: true, status: 'ocupada' });
-    return vaga;
+    return this.vagaRepository.reservar(id);
   }
 
   async liberar(id: number): Promise<Vaga> {
-    const vaga = await this.findOne(id);
-    if (!vaga.reservada) {
-      throw new Error(`A vaga ${id} não está reservada`);
-    }
-    await vaga.update({ reservada: false, status: 'disponivel' });
-    return vaga;
+    return this.vagaRepository.liberar(id);
   }
 }

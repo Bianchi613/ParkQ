@@ -1,20 +1,20 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Vaga } from './vaga.model';
 
 @Injectable()
 export class VagaRepository {
   constructor(
-    @InjectModel(Vaga)
+    @InjectModel(Vaga) // Verifica se o caminho está correto
     private readonly vagaModel: typeof Vaga,
   ) {}
 
-  // Encontrar Todas as Vagas
+  // 🔍 **Encontrar Todas as Vagas**
   async findAll(): Promise<Vaga[]> {
     return this.vagaModel.findAll();
   }
 
-  // Encontrar uma Vaga por ID
+  // 🔍 **Encontrar uma Vaga por ID**
   async findById(id: number): Promise<Vaga> {
     const vaga = await this.vagaModel.findByPk(id);
     if (!vaga) {
@@ -23,52 +23,52 @@ export class VagaRepository {
     return vaga;
   }
 
-  // Criar Nova Vaga
+  // 🟢 **Criar Nova Vaga**
   async create(vagaData: Partial<Vaga>): Promise<Vaga> {
     return this.vagaModel.create(vagaData);
   }
 
-  // Atualizar Vaga
+  // 🟡 **Atualizar Vaga**
   async update(id: number, vagaData: Partial<Vaga>): Promise<Vaga> {
-    const vaga = await this.findById(id);
-    await vaga.update(vagaData);
+    const vaga = await this.findById(id); // Verifica se a vaga existe
+    await vaga.update(vagaData); // Atualiza os campos da vaga
     return vaga;
   }
 
-  // Remover Vaga
+  // 🔴 **Remover Vaga**
   async remove(id: number): Promise<void> {
-    const vaga = await this.findById(id);
-    await vaga.destroy();
+    const vaga = await this.findById(id); // Verifica se a vaga existe
+    await vaga.destroy(); // Exclui a vaga
   }
 
-  // Reservar uma Vaga
+  // 🔵 **Reservar uma Vaga**
   async reservar(id: number): Promise<Vaga> {
-    const vaga = await this.findById(id);
+    const vaga = await this.findById(id); // Verifica se a vaga existe
     if (vaga.reservada) {
-      throw new Error(`A vaga ${id} já está reservada`);
+      throw new ConflictException(`A vaga com ID ${id} já está reservada`);
     }
-    await vaga.update({ reservada: true, status: 'ocupada' });
+    await vaga.update({ reservada: true, status: 'ocupada' }); // Atualiza a vaga para "ocupada"
     return vaga;
   }
 
-  // Liberar uma Vaga (REGRA DE NEGÓCIO: Só se a vaga estiver ocupada)
+  // 🟠 **Liberar uma Vaga**
   async liberar(id: number): Promise<Vaga> {
-    const vaga = await this.findById(id);
+    const vaga = await this.findById(id); // Verifica se a vaga existe
     if (vaga.status !== 'ocupada') {
-      throw new Error(`A vaga com ID ${id} não pode ser liberada porque não está ocupada`);
+      throw new ConflictException(`A vaga com ID ${id} não pode ser liberada porque não está ocupada`);
     }
-    await vaga.update({ reservada: false, status: 'disponivel' });
+    await vaga.update({ reservada: false, status: 'disponivel' }); // Atualiza a vaga para "disponivel"
     return vaga;
   }
 
-  // Atualizar Status de Vaga
+  // 🟣 **Atualizar Status de uma Vaga**
   async updateStatus(id: number, status: string): Promise<void> {
-    const vaga = await this.findById(id);
-    await vaga.update({ status });
+    const vaga = await this.findById(id); // Verifica se a vaga existe
+    await vaga.update({ status }); // Atualiza o status da vaga
   }
 
-  // Buscar Vaga por ID
+  // 🔍 **Buscar Vaga por ID**
   async findOne(id: number): Promise<Vaga> {
-    return this.findById(id);
+    return this.findById(id); // Alias para findById()
   }
 }
