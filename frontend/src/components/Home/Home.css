@@ -1,0 +1,47 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw; /* Agora ocupa toda a largura */
+    background-color: #faf5ff;
+    text-align: center;
+    padding: 20px; /* Evita que os elementos fiquem muito compactados */
+  }
+  
+  h2 {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  h1 {
+    font-size: 4rem; /* Maior para parecer mais profissional */
+    font-weight: bold;
+    color: rgb(46, 44, 44);
+  }
+  
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+  }
+  
+  .btn {
+    background-color: black;
+    color: white;
+    padding: 15px 30px; /* Botões maiores */
+    border: none;
+    cursor: pointer;
+    font-size: 1.4rem;
+    border-radius: 8px;
+    width: 220px;
+    text-align: center;
+  }
+  
+  .btn:hover {
+    opacity: 0.8;
+  }
+  
