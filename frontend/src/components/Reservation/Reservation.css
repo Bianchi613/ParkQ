@@ -1,0 +1,44 @@
+.reservation-container {
+    padding: 20px;
+  }
+  
+  .vaga-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .vaga-item {
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .vaga-info {
+    flex: 1;
+  }
+  
+  .confirm-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .confirm-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #f0ad4e;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  

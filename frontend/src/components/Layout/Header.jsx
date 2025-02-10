@@ -7,11 +7,18 @@ const Header = () => {
   const handleLogout = () => {
     // Ação para deslogar o usuário, como limpar o token de autenticação
     localStorage.removeItem('token'); // Exemplo de remoção do token do localStorage
+    localStorage.removeItem('userId'); // Limpar o userId do localStorage também
     navigate('/login'); // Redireciona para a página de login
   };
 
   const handleProfile = () => {
-    navigate('/perfil'); // Redireciona para a página de perfil
+    // Acessa o userId do localStorage
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      navigate(`/perfil/${userId}`); // Redireciona para a página de perfil com o ID
+    } else {
+      console.error('ID do usuário não encontrado!');
+    }
   };
 
   return (

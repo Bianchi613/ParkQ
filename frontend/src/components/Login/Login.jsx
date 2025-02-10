@@ -32,15 +32,18 @@ function Login() {
         senha: formData.senha, // Enviando a senha em texto simples
       });
 
-      console.log('Resposta da API:', response);  // Adicionando log para verificar a resposta da API
+      console.log('Resposta da API:', response.data);  // Verifique o que está sendo retornado pela API
 
-      // Redireciona diretamente após a requisição sem esperar pela resposta
       const role = response.data.role;
       const token = response.data.access_token;
+      const userId = response.data.id; // Extraindo o ID do usuário da resposta
+  
 
       if (role && token) {
         // Armazenar o token JWT no localStorage
         localStorage.setItem('token', token);
+        localStorage.setItem('userId', userId);  // Armazenando o ID do usuário
+
 
         // Redireciona conforme o perfil do usuário
         if (role === 'ADMIN') {
@@ -48,10 +51,12 @@ function Login() {
           navigate('/admin-dashboard', { replace: true });
         } else if (role === 'CLIENT') {
           console.log("Redirecionando para o Client Dashboard");
-          navigate('/client-dashboard', { replace: true });
+          navigate('/client-dashboard', { replace: true });  // Redireciona para o dashboard do cliente
         } else {
           setError('Perfil inválido');
         }
+      } else {
+        setError('Erro ao fazer login: dados inválidos');
       }
     } catch (error) {
       console.error('Erro ao fazer login:', error);
