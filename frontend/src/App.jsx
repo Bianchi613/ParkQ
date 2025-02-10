@@ -6,6 +6,7 @@ import ForgotPassword from './components/ForgotPassword/ForgotPassword'; // Impo
 import ClientDashboard from './components/ClientDashboard/ClientDashboard'; // Importando o ClientDashboard
 import ProfileSettings from './components/ProfileSettings/ProfileSettings'; // Importando o ProfileSettings
 import Reservation from './components/Reservation/Reservation'; // Importando o componente de Reserva
+import Payment from './components/Payment/Payment'; // Importando o Payment
 import './App.css';
 
 function App() {
@@ -19,11 +20,13 @@ function App() {
         <Route path="/client-dashboard" element={<ClientDashboard />} /> {/* Rota para o ClientDashboard */}
         
         {/* Rota para as configurações de perfil com ID */}
-        {/* A URL agora vai incluir o ID do usuário */}
         <Route path="/perfil/:id" element={<ProfileSettings />} />
 
         {/* Rota para a página de reservas com ID do estacionamento */}
         <Route path="/reservation/:id" element={<Reservation />} /> {/* Nova Rota de Reserva */}
+        
+        {/* Rota para o pagamento */}
+        <Route path="/payment" element={<Payment />} /> {/* Rota para a página de pagamento */}
       </Routes>
     </Router>
   );

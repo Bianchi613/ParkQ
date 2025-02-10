@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import './Reservation.css';
+import Header from '../Layout/Header'; // Corrigido o caminho do Header
 
 const Reservation = () => {
   const [vagas, setVagas] = useState([]);
@@ -38,7 +39,11 @@ const Reservation = () => {
 
   return (
     <div className="reservation-container">
+     
+  
       <h2>Escolha uma vaga para reservar</h2>
+      <Header /> {/* Adicionando o Header acima da lista de estacionamentos */}
+      
       <div className="vaga-list">
         {vagas.length > 0 ? (
           vagas.map(vaga => (
