@@ -1,0 +1,45 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f5fc; /* Cor de fundo escura */
+    color: white;
+    font-family: 'Arial', sans-serif;
+    margin-top: 140px; /* Adicionando margem no topo para empurrar o header para baixo */
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .header h1 {
+    font-size: 2rem;
+    margin: 0;
+  }
+  
+  .header-buttons {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .profile-button,
+  .logout-button {
+    background-color: #141516;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .profile-button:hover,
+  .logout-button:hover {
+    background-color: #333;
+  }
+  

@@ -26,40 +26,36 @@ function Login() {
     setError(""); // Resetando o erro antes de enviar
 
     try {
-      // Enviando a requisição para a API de login
+      // Enviando a requisição para a API de login com a senha em texto simples
       const response = await axios.post('http://localhost:3000/auth/login', {
         email: formData.email,
-        senha: formData.senha,
+        senha: formData.senha, // Enviando a senha em texto simples
       });
 
-      // Verificando se o login foi bem-sucedido
-      if (response.status === 200) {
-        const token = response.data.access_token;
-        const role = response.data.role;
+      console.log('Resposta da API:', response);  // Adicionando log para verificar a resposta da API
 
+      // Redireciona diretamente após a requisição sem esperar pela resposta
+      const role = response.data.role;
+      const token = response.data.access_token;
+
+      if (role && token) {
         // Armazenar o token JWT no localStorage
         localStorage.setItem('token', token);
 
         // Redireciona conforme o perfil do usuário
         if (role === 'ADMIN') {
-          navigate('/admin-dashboard');
+          console.log("Redirecionando para o Admin Dashboard");
+          navigate('/admin-dashboard', { replace: true });
         } else if (role === 'CLIENT') {
-          navigate('/client-dashboard');
+          console.log("Redirecionando para o Client Dashboard");
+          navigate('/client-dashboard', { replace: true });
         } else {
           setError('Perfil inválido');
         }
-      } else {
-        setError('Erro ao fazer login');
       }
     } catch (error) {
-      if (error.response) {
-        // Exibe o erro específico da API, como "Usuário não encontrado"
-        setError(error.response.data.message || 'Credenciais inválidas.');
-      } else {
-        // Exibe erro genérico caso a requisição falhe
-        setError('Erro ao fazer login.');
-      }
       console.error('Erro ao fazer login:', error);
+      setError('Erro ao fazer login.');
     }
   };
 
@@ -67,25 +63,27 @@ function Login() {
     <div className="login-container">
       <h1>Park Q</h1>
       <form onSubmit={handleSubmit}>
-        <label>Email</label>
+        <label htmlFor="email">Email</label>
         <input
           type="email"
+          id="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
           required
         />
 
-        <label>Senha</label>
+        <label htmlFor="senha">Senha</label>
         <input
           type="password"
+          id="senha"
           name="senha"
           value={formData.senha}
           onChange={handleChange}
           required
         />
 
-        {error && <div className="error-message">{error}</div>} {/* Exibe erro, se houver */}
+        {error && <div className="error-message">{error}</div>}
 
         <button type="submit" className="btn">Entrar</button>
 

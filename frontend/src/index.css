@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: #333; /* Ajustado para melhor legibilidade */
-  background-color: #faf5ff; /* Mantendo a cor do fundo como no design */
+  background-color: #faf5ff; /* Cor do fundo conforme o design */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,11 +15,12 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #646cff; /* Cor de link mais suave */
   text-decoration: none;
 }
+
 a:hover {
-  color: #535bf2;
+  color: #535bf2; /* Cor do link ao passar o mouse */
 }
 
 body {
@@ -27,19 +28,19 @@ body {
   display: block;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #faf5ff; /* Mantendo fundo consistente com o design */
+  background-color: #faf5ff; /* Cor de fundo suave */
   text-align: center;
 }
 
 h1 {
   font-size: 3rem;
   font-weight: bold;
-  color: black;
+  color: #333; /* Cor escura para o título */
 }
 
 h2 {
   font-size: 1.2rem;
-  color: #555;
+  color: #555; /* Cor suave para subtítulos */
 }
 
 .buttons {
@@ -50,7 +51,7 @@ h2 {
 }
 
 .btn {
-  background-color: black;
+  background-color: #020203; /* Cor escura do botão */
   color: white;
   padding: 15px 30px;
   border: none;
@@ -62,7 +63,7 @@ h2 {
 }
 
 .btn:hover {
-  opacity: 0.8;
+  opacity: 0.8; /* Efeito de hover */
 }
 
 button {
@@ -72,14 +73,14 @@ button {
   font-size: 1rem;
   font-weight: 500;
   font-family: inherit;
-  background-color: black;
+  background-color: #020203; /* Cor escura para os botões */
   color: white;
   cursor: pointer;
   transition: opacity 0.25s;
 }
 
 button:hover {
-  opacity: 0.8;
+  opacity: 0.8; /* Efeito de hover */
 }
 
 @media (prefers-color-scheme: light) {
@@ -88,10 +89,10 @@ button:hover {
     background-color: #ffffff;
   }
   a:hover {
-    color: #747bff;
+    color: #747bff; /* Alteração de cor de hover do link */
   }
   button {
-    background-color: black;
+    background-color: #020203; /* Mantendo o botão com fundo escuro */
     color: white;
   }
 }
